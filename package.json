@@ -2,9 +2,9 @@
   "name": "worldcup-ticketing-api",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch src/app.ts",
+    "dev": "tsx watch src/index.ts",
     "build": "tsc",
-    "start": "node dist/app.js"
+    "start": "node dist/index.js"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.9",
