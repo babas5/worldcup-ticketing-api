@@ -38,10 +38,10 @@ async function clear(): Promise<void> {
     await AppDataSource.query("SET FOREIGN_KEY_CHECKS = 1;");
 
     await AppDataSource.destroy();
-    console.log("Database cleared with success");
+    console.log("Base de données vidée");
   } catch (error) {
     console.error(error);
-    console.error("Can't clear database");
+    console.error("Impossible de vider la base de données");
   }
 }
 
