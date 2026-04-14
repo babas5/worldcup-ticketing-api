@@ -1,37 +1,67 @@
-import {Team} from "@domain/entities/Team";
-import {Stadium} from "@domain/entities/Stadium";
-import {MatchStatus} from "@domain/entities/MatchStatus";
-import {MatchStage} from "@domain/entities/MatchStage";
+import {Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany} from "typeorm";
+import {Team } from "./Team.js";
+import {Stadium} from "./Stadium.js";
+import {Ticket} from "./Ticket.js";
+import {MatchStatus} from "./MatchStatus.js";
+import {MatchStage} from "./MatchStage.js";
 
+@Entity({ name: "matchs" }) 
 export class Match {
+  @PrimaryGeneratedColumn({ type: "int" })
+  public id!: number; 
 
-  public homeScore: number = 0;
-  public awayScore: number = 0;
-  public homeScoreExtraTime: number | null = null;
-  public awayScoreExtraTime: number | null = null;
-  public homeScoreShootOut: number | null = null;
-  public awayScoreShootOut: number | null = null;
+  @Column({ default: 0, type: "int" })
+  public homeScore: number = 0; 
 
-  constructor(
-    public id: number,
-    public homeTeam: Team,
-    public awayTeam: Team,
-    public stadium: Stadium,
-    public status: MatchStatus,
-    public stage: MatchStage,
-    public date: Date
-  ) {
-    
-    if (id <= 0) {
-      throw new Error("L'identifiant du match doit être supérieur à 0.");
+  @Column({ default: 0, type: "int" })
+  public awayScore: number = 0; 
+
+  @Column({ type: "int", nullable: true })
+  public homeScoreExtraTime: number | null = null; 
+
+  @Column({ type: "int", nullable: true })
+  public awayScoreExtraTime: number | null = null; 
+
+  @Column({ type: "int", nullable: true })
+  public homeScoreShootOut: number | null = null; 
+
+  @Column({ type: "int", nullable: true })
+  public awayScoreShootOut: number | null = null; 
+
+  @Column({ type: "datetime" })
+  public date!: Date;
+
+  @ManyToOne(() => Team, { eager: true })
+  public homeTeam!: Team;
+
+  @ManyToOne(() => Team, { eager: true })
+  public awayTeam!: Team;
+
+  @ManyToOne(() => Stadium, { eager: true })
+  public stadium!: Stadium;
+
+  @Column({ type: "varchar" })
+  public status!: MatchStatus;
+
+  @Column({ type: "varchar" })
+  public stage!: MatchStage;
+
+  @OneToMany(() => Ticket, (ticket) => ticket.match)
+  public tickets!: Ticket[];
+
+  constructor(id?: number, homeTeam?: Team, awayTeam?: Team, stadium?: Stadium, status?: MatchStatus, stage?: MatchStage, date?: Date) {
+    if (id !== undefined) {
+      if (id <= 0) throw new Error("id > 0"); 
+      this.id = id;
     }
-
-    if (homeTeam.code === awayTeam.code) {
-      throw new Error("Une équipe ne peut pas s'affronter elle-même.");
+    if (homeTeam && awayTeam) {
+      if (homeTeam.name === awayTeam.name) throw new Error("homeTeam.name ≠ awayTeam.name");
+      this.homeTeam = homeTeam;
+      this.awayTeam = awayTeam;
     }
-  }
-
-  isDraw(): boolean {
-    return this.homeScore === this.awayScore;
+    if (stadium) this.stadium = stadium;
+    if (status) this.status = status;
+    if (stage) this.stage = stage;
+    if (date) this.date = date;
   }
 }

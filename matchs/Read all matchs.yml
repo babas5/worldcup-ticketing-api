@@ -28,9 +28,6 @@ runtime:
     - expression: req.method
       operator: eq
       value: GET
-    - expression: res.body.data[0].id
-      operator: eq
-      value: "1"
     - expression: res.body.data[0].stadium
       operator: isDefined
     - expression: res.body.data[0].stadium.city

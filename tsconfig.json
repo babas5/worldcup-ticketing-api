@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
+    "target": "ESNext",
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "types": ["node"],
     "paths": {
-      "@domain/*": [
-        "domain/*"
-      ],
+      "@domain/*": ["./src/domain/*"],
+      "@application/*": ["./src/application/*"],
+      "@infrastructure/*": ["./src/infrastructure/*"]
     },
     "strict": true,
     "jsx": "react-jsx",

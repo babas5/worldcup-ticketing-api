@@ -1,13 +1,23 @@
-import { serve } from '@hono/node-server'
-import { app } from './app.js'
+import "reflect-metadata";
+import {serve} from "@hono/node-server"; 
+import {AppDataSource } from "@infrastructure/database/AppDataSource";
+import {app} from "@infrastructure/app";
 
-const port = 3000
+const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
-serve({
-  fetch: app.fetch,
-  port: 3000
-})
+AppDataSource.initialize()
+  .then(() => {
+    console.log("Base de données connectée");
+    
+    serve({
+      fetch: app.fetch,
+      port: port
+    });
 
-console.log('Port 3000')
-
-
+    console.log(`Démarrage du serveur sur le port ${port}`);
+  })
+  .catch((err) => {
+    console.error("Zrreur : Impossible de se connecter à la base de données", err);
+    process.exit(1);
+  });
+ 
