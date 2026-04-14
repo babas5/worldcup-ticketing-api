@@ -63,35 +63,35 @@ async function seed(): Promise<void> {
     for (const country of countries) {
       await countryRepo.save(countryRepo.create(country));
     }
-    console.log("Countries inserted");
+    console.log("Pays insérés");
 
     for (const city of cities) {
       await cityRepo.save(cityRepo.create(city));
     }
-    console.log("Cities inserted");
+    console.log("Villes insérées");
 
     for (const stadium of stadiums) {
       await stadiumRepo.save(stadiumRepo.create(stadium));
     }
-    console.log("Stadiums inserted");
+    console.log("Stades insérés");
 
     for (const team of teams) {
       await teamRepo.save(teamRepo.create(team));
     }
-    console.log("Teams inserted");
+    console.log("Equipes insérées");
 
     for (const match of matchs) {
       await matchRepo.save(matchRepo.create(match));
     }
-    console.log("Matchs inserted");
+    console.log("Matchs insérés");
 
     for (const ticket of tickets) {
       await ticketRepo.save(ticketRepo.create(ticket));
     }
-    console.log("Tickets inserted");
+    console.log("Tickets insérés");
 
     await AppDataSource.destroy();
-    console.log("Database seeded with success");
+    console.log("Seed de la base de données terminé");
   } catch (error) {
     console.error(error);
   }
